@@ -177,7 +177,7 @@ public class CartGUI extends JFrame {
     private double calculateTotal() {
     double total = 0;
     for (Vector<Object> cartItem : carts) {
-        total += (double) cartItem.get(3) * (int) cartItem.get(2); // 假设价格在索引3，数量在索引2
+        total += (double) cartItem.get(3) * (int) cartItem.get(2); 
     }
     return total;
 }

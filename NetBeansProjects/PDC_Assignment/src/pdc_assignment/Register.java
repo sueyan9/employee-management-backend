@@ -109,15 +109,33 @@ public class Register extends JFrame {
 
             // Register user by inserting data into the database
             try {
-                databaseManager.insertUser( /* provide user id */ userName, passWord, selectedUserGroup);
-                JOptionPane.showMessageDialog(this, "Registration successful!");
-                new Login().setVisible(true); // Go to login screen after successful registration
-                this.dispose();
+                // Check if registering as admin
+                if (selectedUserGroup.equals("admin")) {
+                    // Prompt for special admin username and password
+                    String adminUsername = JOptionPane.showInputDialog(this, "Enter admin username:");
+                    String adminPassword = JOptionPane.showInputDialog(this, "Enter admin password:");
+                    
+                    if (adminUsername != null && adminPassword != null && adminUsername.equals("admin") && adminPassword.equals("admin")) {
+                        // Proceed with admin registration
+                        databaseManager.insertUser(userName, passWord, selectedUserGroup);
+                        JOptionPane.showMessageDialog(this, "Admin registration successful!");
+                        new Login().setVisible(true); // Go to login screen after successful registration
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Invalid admin credentials. Please try again.");
+                    }
+                } else {
+                    databaseManager.insertUser(userName, passWord, selectedUserGroup);
+                    JOptionPane.showMessageDialog(this, "Registration successful!");
+                    new Login().setVisible(true); // Go to login screen after successful registration
+                    this.dispose();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error occurred during registration.");
             }
         });
+
 
         backButton.addActionListener(e -> {
             new Login().setVisible(true);

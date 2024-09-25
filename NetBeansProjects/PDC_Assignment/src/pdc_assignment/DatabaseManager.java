@@ -40,7 +40,7 @@ public class DatabaseManager {
     private static final String SELECT_USER_QUERY = "SELECT * FROM user_account WHERE username = ? AND password = ? AND userGroup = ?"; 
     
     // Establish database connection
-    private Connection connection;
+    Connection connection;
 
     public DatabaseManager(){
         try {
@@ -452,14 +452,14 @@ public class DatabaseManager {
     String query = "SELECT id, customer_id, purchase_date, total_price FROM sale_order WHERE customer_id = ?";
 
     try (PreparedStatement statement = connection.prepareStatement(query)) {
-        statement.setInt(1, customerId); // 设置参数值
-        ResultSet resultSet = statement.executeQuery(); // 执行查询
+        statement.setInt(1, customerId); 
+        ResultSet resultSet = statement.executeQuery(); 
         while (resultSet.next()) {
             Vector<Object> row = new Vector<>();
             row.add(resultSet.getInt("id"));
             row.add(resultSet.getInt("customer_id"));
             row.add(resultSet.getDate("purchase_date"));
-            row.add(resultSet.getDouble("total_price")); // 使用 getDouble 获取 DECIMAL 类型的列
+            row.add(resultSet.getDouble("total_price")); 
             orders.add(row);
         }
     } catch (SQLException ex) {
@@ -474,13 +474,13 @@ public class DatabaseManager {
     String query = "SELECT id, customer_id, purchase_date, total_price FROM sale_order";
 
     try (PreparedStatement statement = connection.prepareStatement(query)) {
-        ResultSet resultSet = statement.executeQuery(); // 执行查询
+        ResultSet resultSet = statement.executeQuery(); 
         while (resultSet.next()) {
             Vector<Object> row = new Vector<>();
             row.add(resultSet.getInt("id"));
             row.add(resultSet.getInt("customer_id"));
             row.add(resultSet.getDate("purchase_date"));
-            row.add(resultSet.getDouble("total_price")); // 使用 getDouble 获取 DECIMAL 类型的列
+            row.add(resultSet.getDouble("total_price")); 
             orders.add(row);
         }
     } catch (SQLException ex) {

@@ -10,12 +10,14 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import java.sql.SQLException;
 
 /**
  *
  * @author xuyan
  */
 public class UserTest {
+    private DatabaseManager instance;
     
     public UserTest() {
     }
@@ -30,8 +32,7 @@ public class UserTest {
     
     @Before
     public void setUp() {
-        
-        
+   
     }
     
     @After

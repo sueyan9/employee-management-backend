@@ -40,7 +40,7 @@ public class InventoryManagementGUI extends JFrame {
         add(viewCustomerOrderHistoryButton);
         
         String url = "jdbc:derby:/Users/xuyan/Downloads/db-derby-10.14.2.0-bin/inventory;create=true";
-        String user = "username"; // Update with your database username
+       String user = "username"; // Update with your database username
         String password = "password"; // Update with your database password
 
 
