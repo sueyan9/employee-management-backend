@@ -1,6 +1,6 @@
 package com.xu.yan.employee_management.model;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
 
 //如果不用mybatis,而使用JPA的话，就要用@Entity
 public class Dept {
@@ -20,7 +20,7 @@ public class Dept {
         this.id = id;
     }
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }

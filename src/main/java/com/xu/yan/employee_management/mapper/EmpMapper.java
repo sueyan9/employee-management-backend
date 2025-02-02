@@ -11,14 +11,14 @@ public interface EmpMapper {
     @Select("SELECT * FROM emp")
     @Results({
             @Result(property = "dept", column = "dept_id",
-                    one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.findById"))
+                    one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.getDeptById"))
     })
     List<Emp> findAll();
 
     @Select("SELECT * FROM emp WHERE id = #{id}")
     @Results({
             @Result(property = "dept", column = "dept_id",
-                    one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.findById"))
+                    one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.getDeptById"))
     })
     Emp findById(int id);
 

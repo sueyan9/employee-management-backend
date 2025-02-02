@@ -5,12 +5,12 @@ import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import lombok.Data;
 import org.apache.ibatis.type.NStringTypeHandler;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
+//import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import javax.persistence.*;
+
 
 
 //@Table(name = "emp")
@@ -33,5 +33,6 @@ public class Emp {
     //@ManyToOne  // 关系映射，多个员工对应一个部门
     //@JoinColumn(name = "dept_id")
     private Dept dept;  // dept 字段类型为 Dept
-//
-    }
+
+
+}

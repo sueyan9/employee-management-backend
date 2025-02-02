@@ -1,11 +1,16 @@
 package com.xu.yan.employee_management.service.impl;
 
+import com.xu.yan.employee_management.mapper.DeptMapper;
+import com.xu.yan.employee_management.model.Dept;
 import com.xu.yan.employee_management.model.Emp;
 import com.xu.yan.employee_management.mapper.EmpMapper;
 import com.xu.yan.employee_management.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +20,8 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private EmpMapper empMapper;
 
+    private DeptMapper deptMapper;
+
     @Override
     public List<Emp> getAllEmps() {
         return empMapper.findAll();
@@ -23,11 +30,14 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Optional<Emp> getEmpById(int id) {
         Emp emp = empMapper.findById(id);
+//        Dept dept = deptMapper.getDeptById(emp.getDeptId());
+//        emp.setDept(dept);
         return Optional.ofNullable(emp);
     }
 
     @Override
     public Emp createEmp(Emp emp) {
+        emp.setCreateTime(LocalDateTime.now());
         empMapper.insert(emp); // Change 'save' to 'insert'
         return emp;
     }
@@ -40,7 +50,7 @@ public class EmpServiceImpl implements EmpService {
             empMapper.update(empDetails);
             return empDetails;
         }
-        return null; // You can throw an exception here if needed
+        return null;
     }
 
     @Override
@@ -50,6 +60,6 @@ public class EmpServiceImpl implements EmpService {
             empMapper.delete(id);
             return true;
         }
-        return false; // You can throw an exception here if needed
+        return false;
     }
 }
