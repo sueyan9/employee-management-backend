@@ -34,5 +34,4 @@ public class Emp {
     //@JoinColumn(name = "dept_id")
     private Dept dept;  // dept 字段类型为 Dept
 
-
 }

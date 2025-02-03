@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Service
 public class EmpServiceImpl implements EmpService {
-
+    private static final Logger logger = LoggerFactory.getLogger(EmpServiceImpl.class);
     @Autowired
     private EmpMapper empMapper;
 
@@ -24,7 +25,14 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public List<Emp> getAllEmps() {
+
         return empMapper.findAll();
+        // test
+//        List<Emp> employees = empMapper.findAll();
+//        for (Emp emp : employees) {
+//            System.out.println("DEBUG:Employee ID: " + emp.getId() + ", Entry Date: " + emp.getEntryDate());
+//        }
+//        return employees;
     }
 
     @Override
@@ -38,7 +46,8 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public Emp createEmp(Emp emp) {
         emp.setCreateTime(LocalDateTime.now());
-        empMapper.insert(emp); // Change 'save' to 'insert'
+        logger.debug("Creating employee with username: {}, entryDate: {}", emp.getUsername(), emp.getEntryDate());
+        empMapper.insert(emp);
         return emp;
     }
 

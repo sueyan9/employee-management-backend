@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/emps")
-@CrossOrigin(origins = "http://localhost:3000") // A
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmpController {
 
     @Autowired

@@ -10,6 +10,16 @@ public interface EmpMapper {
 
     @Select("SELECT * FROM emp")
     @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "username", column = "username"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "name", column = "name"),
+            @Result(property = "gender", column = "gender"),
+            @Result(property = "image", column = "image"),
+            @Result(property = "job", column = "job"),
+            @Result(property = "entryDate", column = "entry_date",typeHandler = com.xu.yan.employee_management.mapper.LocalDateTypeHandler.class),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "updateTime", column = "update_time"),
             @Result(property = "dept", column = "dept_id",
                     one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.getDeptById"))
     })
