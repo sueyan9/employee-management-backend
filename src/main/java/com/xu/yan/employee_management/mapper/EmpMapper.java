@@ -2,6 +2,9 @@ package com.xu.yan.employee_management.mapper;
 
 import com.xu.yan.employee_management.model.Emp;
 import org.apache.ibatis.annotations.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public interface EmpMapper {
 
     @Select("SELECT * FROM emp WHERE id = #{id}")
     @Results({
+            @Result(property = "entryDate", column = "entry_date",typeHandler = com.xu.yan.employee_management.mapper.LocalDateTypeHandler.class),
             @Result(property = "dept", column = "dept_id",
                     one = @One(select = "com.xu.yan.employee_management.mapper.DeptMapper.getDeptById"))
     })

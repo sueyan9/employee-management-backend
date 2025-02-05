@@ -10,24 +10,24 @@ public class LocalDateTypeHandler extends BaseTypeHandler<LocalDate> {
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, LocalDate parameter, JdbcType jdbcType) throws SQLException {
-        ps.setDate(i, Date.valueOf(parameter));
+        ps.setString(i, parameter != null ? parameter.toString() : null);
     }
 
     @Override
     public LocalDate getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        Date date = rs.getDate(columnName);
-        return date != null ? date.toLocalDate() : null;
+        String date = rs.getString(columnName);
+        return date != null ? LocalDate.parse(date) : null;
     }
 
     @Override
     public LocalDate getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        Date date = rs.getDate(columnIndex);
-        return date != null ? date.toLocalDate() : null;
+        String date = rs.getString(columnIndex);
+        return date != null ? LocalDate.parse(date) : null;
     }
 
     @Override
     public LocalDate getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        Date date = cs.getDate(columnIndex);
-        return date != null ? date.toLocalDate() : null;
+        String date = cs.getString(columnIndex);
+        return date != null ? LocalDate.parse(date) : null;
     }
 }

@@ -28,6 +28,7 @@ public class EmpController {
     @GetMapping("/{id}")
     public ResponseEntity<Emp> getEmpById(@PathVariable int id) {
         Optional<Emp> emp = empService.getEmpById(id);
+        System.out.println("Returned Employee: " + emp);
         return emp.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
