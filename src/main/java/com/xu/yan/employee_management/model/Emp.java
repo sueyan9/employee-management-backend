@@ -3,6 +3,8 @@ package com.xu.yan.employee_management.model;
 
 import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.ibatis.type.NStringTypeHandler;
 
 //import javax.persistence.Entity;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 //@Table(name = "emp")
 @Data//自动生成所有 Getter、Setter、toString、equals 和 hashCode 方法
 //@Entity
+@Getter
+@Setter
 public class Emp {
     //@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)

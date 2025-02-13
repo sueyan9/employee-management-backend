@@ -2,6 +2,7 @@ package com.xu.yan.employee_management.mapper;
 
 import com.xu.yan.employee_management.model.Dept;
 import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
