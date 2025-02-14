@@ -1,33 +1,43 @@
 package com.xu.yan.employee_management.controller;
 
-import com.xu.yan.employee_management.dto.LoginRequest;
 import com.xu.yan.employee_management.dto.LoginResponse;
 import com.xu.yan.employee_management.model.User;
+import com.xu.yan.employee_management.response.ApiResponse;
 import com.xu.yan.employee_management.service.UserService;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @PostMapping("/api/login")
+    public ApiResponse<LoginResponse> login(@RequestBody User loginRequest) {
+        LoginResponse response = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        log.info("response is:{}", response.getToken());
+        if (response != null) {
+            return ApiResponse.success(response);
+        } else {
+            return ApiResponse.error(401, "Invalid username or password");
+        }
+
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestParam String username, @RequestParam String password) {
-        LoginResponse response = userService.login(username, password);
-        return ResponseEntity.ok(response);
+    @PostMapping("/api/register")
+    public ApiResponse<User> register(@RequestBody User user) {
+        boolean success = userService.register(user);
+        if (success) {
+            return ApiResponse.success();
+        } else {
+            return ApiResponse.error(400, "User already exists");
+        }
     }
 
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        userService.register(user);
-        return ResponseEntity.ok("User registered successfully");
-    }
 }
+

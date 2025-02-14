@@ -5,5 +5,7 @@ import com.xu.yan.employee_management.model.User;
 
 public interface UserService {
     LoginResponse login(String username, String password);
-    void register(User user);
+    boolean register(User user);
+
+
 }

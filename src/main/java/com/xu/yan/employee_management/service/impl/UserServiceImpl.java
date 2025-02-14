@@ -42,16 +42,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void register(User user) {
+    public boolean register(User user) {
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userMapper.save(user);
+        if (userMapper.findByUsername(user.getUsername()) != null) {
+            System.out.println("User already exists: " + user.getUsername());
+            return false;
+        }
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));  // Ensure password is encoded
+            userMapper.save(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error registering user: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.findByUsername(username); // Ensure this method is correct
+        User user = userMapper.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
@@ -59,8 +68,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                user.getPassword(),  // Ensure password is encoded
-                new ArrayList<>() // Empty authorities for now
+                user.getPassword(),
+                new ArrayList<>()
         );
     }
+
 }

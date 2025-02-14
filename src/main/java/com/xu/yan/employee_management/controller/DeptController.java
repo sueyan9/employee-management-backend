@@ -1,6 +1,7 @@
 package com.xu.yan.employee_management.controller;
 
 import com.xu.yan.employee_management.model.Dept;
+import com.xu.yan.employee_management.response.ApiResponse;
 import com.xu.yan.employee_management.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,64 +21,60 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    // 查询所有部门
     @GetMapping
-    public List<Dept> getAllDepts() {
+    public ApiResponse<List<Dept>> getAllDepts() {
         logger.info("Fetching all departments");
-        return deptService.getAllDepts();
+        List<Dept> deptList = deptService.getAllDepts();
+        return ApiResponse.success(deptList);
     }
 
-    // 根据ID查询部门
     @GetMapping("/{id}")
-    public ResponseEntity<Dept> getDeptById(@PathVariable int id) {
+    public ApiResponse<Dept> getDeptById(@PathVariable int id) {
         logger.info("Fetching department with id: {}", id);
         Optional<Dept> dept = deptService.getDeptById(id);
-        return dept.map(ResponseEntity::ok)
+        return dept.map(ApiResponse::success)
                 .orElseGet(() -> {
                     logger.warn("Department with id {} not found", id);
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                    return ApiResponse.error(404,"Department not found");
                 });
     }
 
-    // 创建部门
     @PostMapping
-    public ResponseEntity<Dept> createDept(@RequestBody Dept dept) {
+    public ApiResponse<Dept> createDept(@RequestBody Dept dept) {
         logger.info("Creating new department: {}", dept);
         Dept createdDept = deptService.createDept(dept);
         if (createdDept != null) {
             logger.debug("Department created successfully: {}", createdDept);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdDept);
+            return ApiResponse.of(201,"Department created successfully", createdDept);
         } else {
             logger.error("Failed to create department: {}", dept);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ApiResponse.error(500,"Failed to creat department ");
         }
     }
 
-    // 更新部门信息
     @PutMapping("/{id}")
-    public ResponseEntity<Dept> updateDept(@PathVariable int id, @RequestBody Dept deptDetails) {
+    public ApiResponse<Dept> updateDept(@PathVariable int id, @RequestBody Dept deptDetails) {
         logger.info("Updating department with id: {}", id);
         Dept updatedDept = deptService.updateDept(id, deptDetails);
         if (updatedDept != null) {
             logger.debug("Department updated successfully: {}", updatedDept);
-            return ResponseEntity.ok(updatedDept);
+            return ApiResponse.success(updatedDept);
         } else {
             logger.warn("Department with id {} not found for update", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ApiResponse.error(404,"Department not found");
         }
     }
 
-    // 删除部门
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDept(@PathVariable int id) {
+    public ApiResponse<Void> deleteDept(@PathVariable int id) {
         logger.info("Deleting department with id: {}", id);
         boolean isDeleted = deptService.deleteDept(id);
         if (isDeleted) {
             logger.debug("Department with id {} deleted successfully", id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ApiResponse.success();
         } else {
             logger.warn("Department with id {} not found for deletion", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ApiResponse.error(404,"Department not found");
         }
     }
 }
