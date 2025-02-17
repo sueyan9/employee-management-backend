@@ -12,6 +12,7 @@ public class JwtUtil {
 
     private static final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final long EXPIRATION_TIME = 1000 * 60 * 60;
+    private static final long REFRESH_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
 
     public String generateToken(String username) {
         return Jwts.builder()
@@ -21,16 +22,25 @@ public class JwtUtil {
                 .signWith(secretKey)
                 .compact();
     }
-
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_TIME))
+                .signWith(secretKey)
+                .compact();
+    }
     public boolean validateToken(String token, String username) {
         try {
             String usernameFromToken = extractUsername(token);
             return usernameFromToken.equals(username) && !isTokenExpired(token);
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
-
+    public boolean validateRefreshToken(String token, String username) {
+        return validateToken(token, username);
+    }
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)

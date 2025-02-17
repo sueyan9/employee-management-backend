@@ -39,7 +39,7 @@ public class DeptServiceImpl implements DeptService {
             deptMapper.updateDept(deptDetails);
             return deptDetails;
         }
-        return null; // You can throw an exception here if needed
+        return null;
     }
 
     @Override
@@ -49,6 +49,6 @@ public class DeptServiceImpl implements DeptService {
             deptMapper.deleteDept(id);
             return true;
         }
-        return false; // You can throw an exception here if needed
+        return false;
     }
 }
